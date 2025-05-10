@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+
+<robot name="rover" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:macro name="scara" params="parent">
+  
+    <joint name="01_arm_base_joint" type="fixed">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="1.00000 0.00000 0.65000"/>
+      <parent link="${parent}"/>
+      <child link="arm_base_link"/>
+    </joint>
+    <joint name="02_arm_cylinder_joint" type="fixed">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.85000"/>
+      <parent link="arm_base_link"/>
+      <child link="arm_cylinder_link"/>
+    </joint>
+    <joint name="03_arm_link1_part1_joint" type="revolute">
+      <limit lower="-3.14000" upper="3.14000" effort="1000" velocity="100.00000"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.90000"/>
+      <parent link="arm_cylinder_link"/>
+      <child link="arm_link1_part1_link_R"/>
+      <axis xyz="0.00000 0.00000 1.00000"/>
+    </joint>
+    <joint name="03_arm_link1_part2_joint" type="fixed">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.50000 0.00000 0.00000"/>
+      <parent link="arm_link1_part1_link_R"/>
+      <child link="arm_link1_part2_link"/>
+    </joint>
+    <joint name="03_arm_link1_part3_joint" type="fixed">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.50000 0.00000 -0.00000"/>
+      <parent link="arm_link1_part2_link"/>
+      <child link="arm_link1_part3_link"/>
+    </joint>
+    <joint name="04_arm_link2_part1_joint" type="revolute">
+      <limit lower="-2.20000" upper="2.20000" effort="1000" velocity="100.00000"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.20000"/>
+      <parent link="arm_link1_part3_link"/>
+      <child link="arm_link2_part1_link_R"/>
+      <axis xyz="0.00000 0.00000 1.00000"/>
+    </joint>
+    <joint name="04_arm_link2_part2_joint" type="fixed">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.50000 0.00000 -0.00000"/>
+      <parent link="arm_link2_part1_link_R"/>
+      <child link="arm_link2_part2_link"/>
+    </joint>
+    <joint name="04_arm_link2_part3_joint" type="fixed">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.50000 0.00000 -0.00000"/>
+      <parent link="arm_link2_part2_link"/>
+      <child link="arm_link2_part3_link"/>
+    </joint>
+    <joint name="05_arm_link3_T_joint" type="prismatic">
+      <limit lower="-2.45000" upper="3.50000" effort="1000" velocity="100.00000"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.60000"/>
+      <parent link="arm_link2_part3_link"/>
+      <child link="arm_link3_link_T"/>
+      <axis xyz="0.00000 0.00000 1.00000"/>
+    </joint>
+    <link name="arm_base_link">
+      <collision name="arm_base_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <cylinder radius="0.30000" length="0.10000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.00583" ixy="0.00000" ixz="0.00000" iyy="0.00583" iyz="0.00000" izz="0.01125"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <mass value="0.25000"/>
+      </inertial>
+      <visual name="arm_base">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <material name="Material.gray"/>
+        <geometry>
+          <cylinder radius="0.30000" length="0.10000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="arm_cylinder_link">
+      <collision name="arm_cylinder_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <cylinder radius="0.15000" length="1.60000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.32844" ixy="0.00000" ixz="0.00000" iyy="0.32844" iyz="0.00000" izz="0.01687"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <mass value="1.50000"/>
+      </inertial>
+      <visual name="arm_cylinder">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <material name="Material.gray"/>
+        <geometry>
+          <cylinder radius="0.15000" length="1.60000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="arm_link1_part1_link_R">
+      <collision name="arm_link1_part1_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
+        <geometry>
+          <cylinder radius="0.15000" length="0.20000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.00179" ixy="0.00000" ixz="0.00000" iyy="0.00179" iyz="0.00000" izz="0.00225"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <mass value="0.20000"/>
+      </inertial>
+      <visual name="arm_link1_part1">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <material name="Material.gray"/>
+        <geometry>
+          <cylinder radius="0.15000" length="0.20000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="arm_link1_part2_link">
+      <collision name="arm_link1_part2_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <box size="1.00000 0.30000 0.20000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.00650" ixy="0.00000" ixz="0.00000" iyy="0.05200" iyz="0.00000" izz="0.05450"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
+        <mass value="0.60000"/>
+      </inertial>
+      <visual name="arm_link1_part2">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
+        <material name="Material.gray"/>
+        <geometry>
+          <box size="1.00000 0.30000 0.20000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="arm_link1_part3_link">
+      <collision name="arm_link1_part3_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <cylinder radius="0.15000" length="0.20000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.00179" ixy="0.00000" ixz="0.00000" iyy="0.00179" iyz="0.00000" izz="0.00225"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <mass value="0.20000"/>
+      </inertial>
+      <visual name="arm_link1_part3">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <material name="Material.gray"/>
+        <geometry>
+          <cylinder radius="0.15000" length="0.20000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="arm_link2_part1_link_R">
+      <collision name="arm_link2_part1_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <cylinder radius="0.15000" length="0.20000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.00179" ixy="0.00000" ixz="0.00000" iyy="0.00179" iyz="0.00000" izz="0.00225"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <mass value="0.20000"/>
+      </inertial>
+      <visual name="arm_link2_part1">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <material name="Material.gray"/>
+        <geometry>
+          <cylinder radius="0.15000" length="0.20000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="arm_link2_part2_link">
+      <collision name="arm_link2_part2_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <box size="1.00000 0.30000 0.20000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.00650" ixy="0.00000" ixz="0.00000" iyy="0.05200" iyz="0.00000" izz="0.05450"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <mass value="0.60000"/>
+      </inertial>
+      <visual name="arm_link2_part2">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <material name="Material.gray"/>
+        <geometry>
+          <box size="1.00000 0.30000 0.20000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="arm_link2_part3_link">
+      <inertial>
+        <inertia ixx="0.00179" ixy="0.00000" ixz="0.00000" iyy="0.00179" iyz="0.00000" izz="0.00225"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <mass value="0.20000"/>
+      </inertial>
+      <visual name="arm_link2_part3">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <material name="Material.gray"/>
+        <geometry>
+          <cylinder radius="0.15000" length="0.20000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="arm_link3_link_T">
+      <collision name="arm_link3_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 1.50000"/>
+        <geometry>
+          <cylinder radius="0.12500" length="3.00000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="1.50781" ixy="0.00000" ixz="0.00000" iyy="1.50781" iyz="0.00000" izz="0.01562"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 1.50000"/>
+        <mass value="2.00000"/>
+      </inertial>
+      <visual name="arm_link3">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 1.50000"/>
+        <material name="Material.gray"/>
+        <geometry>
+          <cylinder radius="0.12500" length="3.00000"/>
+        </geometry>
+      </visual>
+    </link>
+
+  </xacro:macro>
+</robot>

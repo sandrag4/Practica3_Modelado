@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: robot_rover
+    relative_path: robots/robot.urdf.xacro
+  srdf:
+    relative_path: config/rover.srdf
+  package_settings:
+    author_name: Sandra Gonzalez
+    author_email: s.gonzaleza.2022@alumnos.urjc.es
+    generated_timestamp: 1746798350

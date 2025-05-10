@@ -1,0 +1,621 @@
+<?xml version="1.0"?>
+
+<robot name="rover" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:macro name="rover_wheel" params="parent">
+  
+    <joint name="12_link_wheel_front_right_joint" type="fixed">
+      <origin rpy="0.00000 0.61087 0.00000" xyz="0.65000 -0.61000 -0.10000"/>
+      <parent link="${parent}"/>
+      <child link="link_wheel_front_right_link"/>
+    </joint>
+    <joint name="13_link_wheel_front_left_link_joint" type="fixed">
+      <origin rpy="0.00000 0.61087 0.00000" xyz="0.65000 0.61000 -0.10000"/>
+      <parent link="${parent}"/>
+      <child link="link_wheel_front_left_link"/>
+    </joint>
+    <joint name="14_link_wheel_middle_right_joint" type="fixed">
+      <origin rpy="1.57080 1.57080 0.00000" xyz="0.00000 -0.61000 -0.10000"/>
+      <parent link="${parent}"/>
+      <child link="link_wheel_middle_right_link"/>
+    </joint>
+    <joint name="15_link_wheel_middle_left_joint" type="fixed">
+      <origin rpy="-1.57080 1.57080 0.00000" xyz="0.00000 0.61000 -0.10000"/>
+      <parent link="${parent}"/>
+      <child link="link_wheel_middle_left_link"/>
+    </joint>
+    <joint name="16_link_wheel_back_right_joint" type="fixed">
+      <origin rpy="0.00000 -0.61087 0.00000" xyz="-0.65000 -0.61000 -0.10000"/>
+      <parent link="${parent}"/>
+      <child link="link_wheel_back_right_link"/>
+    </joint>
+    <joint name="17_link_wheel_back_left_joint" type="fixed">
+      <origin rpy="0.00000 -0.61087 0.00000" xyz="-0.65000 0.61000 -0.10000"/>
+      <parent link="${parent}"/>
+      <child link="link_wheel_back_left_link"/>
+    </joint>
+    <joint name="21_wheel_cover_front_right_joint" type="continuous">
+      <limit lower="0.00000" upper="0.00000" effort="5000.00000" velocity="100.00000"/>
+      <origin rpy="-1.57080 0.95993 0.00000" xyz="0.70452 -0.06500 0.12708"/>
+      <parent link="link_wheel_front_right_link"/>
+      <child link="wheel_cover_front_right_link"/>
+      <axis xyz="0.00000 0.00000 1.00000"/>
+    </joint>
+    <joint name="22_wheel_front_right_joint" type="fixed">
+      <origin rpy="-3.14159 -0.00000 -1.57080" xyz="0.00000 -0.00000 -0.17500"/>
+      <parent link="wheel_cover_front_right_link"/>
+      <child link="wheel_front_right_link"/>
+    </joint>
+    <joint name="31_wheel_cover_front_left_joint" type="continuous">
+      <limit lower="0.00000" upper="0.00000" effort="5000.00000" velocity="100.00000"/>
+      <origin rpy="-1.57080 0.95993 0.00000" xyz="0.70452 0.06500 0.12708"/>
+      <parent link="link_wheel_front_left_link"/>
+      <child link="wheel_cover_front_left_link"/>
+      <axis xyz="0.00000 0.00000 1.00000"/>
+    </joint>
+    <joint name="32_wheel_front_left_joint" type="fixed">
+      <origin rpy="-3.14159 -0.00000 -1.57080" xyz="0.00000 0.00000 0.17500"/>
+      <parent link="wheel_cover_front_left_link"/>
+      <child link="wheel_front_left_link"/>
+    </joint>
+    <joint name="41_wheel_cover_middle_right_joint" type="continuous">
+      <limit lower="0.00000" upper="0.00000" effort="5000.00000" velocity="100.00000"/>
+      <origin rpy="-3.14159 -0.00000 0.00000" xyz="0.30000 0.00000 0.06500"/>
+      <parent link="link_wheel_middle_right_link"/>
+      <child link="wheel_cover_middle_right_link"/>
+      <axis xyz="0.00000 0.00000 1.00000"/>
+    </joint>
+    <joint name="42_wheel_middle_right_joint" type="fixed">
+      <origin rpy="-3.14159 -0.00000 -1.57080" xyz="-0.00000 -0.00000 -0.17500"/>
+      <parent link="wheel_cover_middle_right_link"/>
+      <child link="wheel_middle_right_link"/>
+    </joint>
+    <joint name="51_wheel_cover_middle_left_joint" type="continuous">
+      <limit lower="0.00000" upper="0.00000" effort="5000.00000" velocity="100.00000"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.30000 0.00000 0.06500"/>
+      <parent link="link_wheel_middle_left_link"/>
+      <child link="wheel_cover_middle_left_link"/>
+      <axis xyz="0.00000 0.00000 1.00000"/>
+    </joint>
+    <joint name="52_wheel_middle_left_joint" type="fixed">
+      <origin rpy="-3.14159 -0.00000 -1.57080" xyz="-0.00000 0.00000 0.17500"/>
+      <parent link="wheel_cover_middle_left_link"/>
+      <child link="wheel_middle_left_link"/>
+    </joint>
+    <joint name="61_wheel_cover_back_right_joint" type="continuous">
+      <limit lower="0.00000" upper="0.00000" effort="5000.00000" velocity="100.00000"/>
+      <origin rpy="1.57080 0.95993 3.14159" xyz="-0.70452 -0.06500 0.12708"/>
+      <parent link="link_wheel_back_right_link"/>
+      <child link="wheel_cover_back_right_link"/>
+      <axis xyz="0.00000 0.00000 1.00000"/>
+    </joint>
+    <joint name="62_wheel_back_right_joint" type="fixed">
+      <origin rpy="-3.14159 -0.00000 -1.57080" xyz="-0.00000 0.00000 -0.17500"/>
+      <parent link="wheel_cover_back_right_link"/>
+      <child link="wheel_back_right_link"/>
+    </joint>
+    <joint name="71_wheel_cover_back_left_joint" type="continuous">
+      <limit lower="0.00000" upper="0.00000" effort="5000.00000" velocity="100.00000"/>
+      <origin rpy="1.57080 0.95993 -3.14159" xyz="-0.70452 0.06500 0.12708"/>
+      <parent link="link_wheel_back_left_link"/>
+      <child link="wheel_cover_back_left_link"/>
+      <axis xyz="0.00000 0.00000 1.00000"/>
+    </joint>
+    <joint name="72_wheel_back_left_joint" type="fixed">
+      <origin rpy="-3.14159 -0.00000 -1.57080" xyz="0.00000 -0.00000 0.17500"/>
+      <parent link="wheel_cover_back_left_link"/>
+      <child link="wheel_back_left_link"/>
+    </joint>
+    <link name="link_wheel_back_left_link">
+      <collision name="link_wheel_back_left_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 -0.00000"/>
+        <geometry>
+          <box size="1.70000 0.08000 0.10000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.48195" ixy="0.00000" ixz="-0.67658" iyy="1.45000" iyz="0.00000" izz="0.97445"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 -0.00000"/>
+        <mass value="6.00000"/>
+      </inertial>
+      <visual name="link_wheel_back_left">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <material name="Material.white"/>
+        <geometry>
+          <box size="1.70000 0.08000 0.10000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="link_wheel_back_right_link">
+      <collision name="link_wheel_back_right_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <box size="1.70000 0.08000 0.10000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.48195" ixy="0.00000" ixz="-0.67658" iyy="1.45000" iyz="0.00000" izz="0.97445"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <mass value="6.00000"/>
+      </inertial>
+      <visual name="link_wheel_back_right">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00000 -0.00000"/>
+        <material name="Material.white"/>
+        <geometry>
+          <box size="1.70000 0.08000 0.10000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="link_wheel_front_left_link">
+      <collision name="link_wheel_front_left_collision">
+        <origin rpy="0.00000 -0.00000 0.00000" xyz="-0.00000 -0.00000 -0.00000"/>
+        <geometry>
+          <box size="1.70000 0.08000 0.10000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.48195" ixy="0.00000" ixz="0.67658" iyy="1.45000" iyz="0.00000" izz="0.97445"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00000 -0.00000"/>
+        <mass value="6.00000"/>
+      </inertial>
+      <visual name="link_wheel_front_left">
+        <origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <material name="Material.white"/>
+        <geometry>
+          <box size="1.70000 0.08000 0.10000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="link_wheel_front_right_link">
+      <collision name="link_wheel_front_right_collision">
+        <origin rpy="0.00000 -0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <box size="1.70000 0.08000 0.10000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.48195" ixy="0.00000" ixz="0.67658" iyy="1.45000" iyz="0.00000" izz="0.97445"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <mass value="6.00000"/>
+      </inertial>
+      <visual name="link_wheel_front_right">
+        <origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 -0.00000 -0.00000"/>
+        <material name="Material.white"/>
+        <geometry>
+          <box size="1.70000 0.08000 0.10000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="link_wheel_middle_left_link">
+      <collision name="link_wheel_middle_left_collision">
+        <origin rpy="1.57080 0.00000 -0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <geometry>
+          <box size="0.90000 0.08000 0.10000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.20410" ixy="0.00000" ixz="0.00000" iyy="0.20500" iyz="0.00000" izz="0.00410"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <mass value="3.00000"/>
+      </inertial>
+      <visual name="link_wheel_middle_left">
+        <origin rpy="1.57080 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <material name="Material.white"/>
+        <geometry>
+          <box size="0.90000 0.08000 0.10000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="link_wheel_middle_right_link">
+      <collision name="link_wheel_middle_right_collision">
+        <origin rpy="-1.57080 -0.00000 0.00000" xyz="0.00000 -0.00000 0.00000"/>
+        <geometry>
+          <box size="0.90000 0.08000 0.10000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.20410" ixy="0.00000" ixz="0.00000" iyy="0.20500" iyz="0.00000" izz="0.00410"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <mass value="3.00000"/>
+      </inertial>
+      <visual name="link_wheel_middle_right">
+        <origin rpy="-1.57080 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <material name="Material.white"/>
+        <geometry>
+          <box size="0.90000 0.08000 0.10000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_back_left_link">
+      <collision name="wheel_back_left_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.010.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.00000</mu>
+              <mu2>1.00000</mu2>
+              <fdir1>0.00000 0.00000 1.00000</fdir1>
+              <slip1>0.0005</slip1>
+              <slip2>0.0005</slip2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <inertial>
+        <inertia ixx="0.46164" ixy="0.00000" ixz="0.00000" iyy="0.84452" iyz="0.00000" izz="0.46164"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <mass value="5.00000"/>
+      </inertial>
+      <visual name="wheel_back_left">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <material name="Material.black"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.010.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_back_right_link">
+      <collision name="wheel_back_right_collision">
+        <origin rpy="0.00000 0.00000 -0.00000" xyz="0.00000 -0.00000 0.00000"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.006.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.00000</mu>
+              <mu2>1.00000</mu2>
+              <fdir1>0.00000 0.00000 1.00000</fdir1>
+              <slip1>0.0005</slip1>
+              <slip2>0.0005</slip2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <inertial>
+        <inertia ixx="0.46164" ixy="0.00000" ixz="0.00000" iyy="0.84452" iyz="0.00000" izz="0.46164"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.00000"/>
+        <mass value="5.00000"/>
+      </inertial>
+      <visual name="wheel_back_right">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <material name="Material.black"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.006.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_cover_back_left_link">
+      <collision name="wheel_cover_back_left_collision">
+        <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.01881" ixy="0.00000" ixz="0.00000" iyy="0.03750" iyz="0.00000" izz="0.01881"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <mass value="0.30000"/>
+      </inertial>
+      <visual name="wheel_cover_back_left">
+        <origin rpy="-0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 -0.00000"/>
+        <material name="Material.gray2"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_cover_back_right_link">
+      <collision name="wheel_cover_back_right_collision">
+        <origin rpy="-0.00000 0.00000 0.00000" xyz="-0.00000 -0.00000 0.00000"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.01881" ixy="0.00000" ixz="0.00000" iyy="0.03750" iyz="0.00000" izz="0.01881"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00000 0.00000"/>
+        <mass value="0.30000"/>
+      </inertial>
+      <visual name="wheel_cover_back_right">
+        <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <material name="Material.gray2"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_cover_front_left_link">
+      <collision name="wheel_cover_front_left_collision">
+        <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.01881" ixy="0.00000" ixz="0.00000" iyy="0.03750" iyz="0.00000" izz="0.01881"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <mass value="0.30000"/>
+      </inertial>
+      <visual name="wheel_cover_front_left">
+        <origin rpy="-0.00000 0.00000 -0.00000" xyz="0.00000 -0.00000 0.00000"/>
+        <material name="Material.gray2"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_cover_front_right_link">
+      <collision name="wheel_cover_front_right_collision">
+        <origin rpy="-0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.01881" ixy="0.00000" ixz="0.00000" iyy="0.03750" iyz="0.00000" izz="0.01881"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
+        <mass value="0.30000"/>
+      </inertial>
+      <visual name="wheel_cover_front_right">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <material name="Material.gray2"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_cover_middle_left_link">
+      <collision name="wheel_cover_middle_left_collision">
+        <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.01881" ixy="-0.00000" ixz="0.00000" iyy="0.03750" iyz="0.00000" izz="0.01881"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
+        <mass value="0.30000"/>
+      </inertial>
+      <visual name="wheel_cover_middle_left">
+        <origin rpy="-0.00000 0.00000 -0.00000" xyz="0.00000 -0.00000 0.00000"/>
+        <material name="Material.gray2"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_cover_middle_right_link">
+      <collision name="wheel_cover_middle_right_collision">
+        <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <inertia ixx="0.01881" ixy="-0.00000" ixz="0.00000" iyy="0.03750" iyz="0.00000" izz="0.01881"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <mass value="0.30000"/>
+      </inertial>
+      <visual name="wheel_cover_middle_right">
+        <origin rpy="0.00000 0.00000 -0.00000" xyz="-0.00000 -0.00000 -0.00000"/>
+        <material name="Material.gray2"/>
+        <geometry>
+          <cylinder radius="0.50000" length="0.05000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_front_left_link">
+      <collision name="wheel_front_left_collision">
+        <origin rpy="0.00000 0.00000 -0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.008.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.00000</mu>
+              <mu2>1.00000</mu2>
+              <fdir1>0.00000 0.00000 1.00000</fdir1>
+              <slip1>0.0005</slip1>
+              <slip2>0.0005</slip2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <inertial>
+        <inertia ixx="0.46164" ixy="0.00000" ixz="0.00000" iyy="0.84452" iyz="0.00000" izz="0.46164"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 0.00000 0.00000"/>
+        <mass value="5.00000"/>
+      </inertial>
+      <visual name="wheel_front_left">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00000 0.00000"/>
+        <material name="Material.black"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.008.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_front_right_link">
+      <collision name="wheel_front_right_collision">
+        <origin rpy="0.00000 0.00000 -0.00000" xyz="0.00000 -0.00000 0.00000"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.007.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.00000</mu>
+              <mu2>1.00000</mu2>
+              <fdir1>0.00000 0.00000 1.00000</fdir1>
+              <slip1>0.0005</slip1>
+              <slip2>0.0005</slip2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <inertial>
+        <inertia ixx="0.46164" ixy="0.00000" ixz="0.00000" iyy="0.84452" iyz="0.00000" izz="0.46164"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.00000"/>
+        <mass value="5.00000"/>
+      </inertial>
+      <visual name="wheel_front_right">
+        <origin rpy="0.00000 0.00000 -0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <material name="Material.black"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.007.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_middle_left_link">
+      <collision name="wheel_middle_left_collision">
+        <origin rpy="-0.00000 0.00000 -0.00000" xyz="0.00000 -0.00000 0.00000"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.009.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.00000</mu>
+              <mu2>1.00000</mu2>
+              <fdir1>0.00000 0.00000 1.00000</fdir1>
+              <slip1>0.0005</slip1>
+              <slip2>0.0005</slip2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <inertial>
+        <inertia ixx="0.46164" ixy="0.00000" ixz="0.00000" iyy="0.84452" iyz="0.00000" izz="0.46164"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <mass value="5.00000"/>
+      </inertial>
+      <visual name="wheel_middle_left">
+        <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 -0.00000"/>
+        <material name="Material.black"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.009.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+      </visual>
+    </link>
+    <link name="wheel_middle_right_link">
+      <collision name="wheel_middle_right_collision">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.00000"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.001.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.00000</mu>
+              <mu2>1.00000</mu2>
+              <fdir1>0.00000 0.00000 1.00000</fdir1>
+              <slip1>0.0005</slip1>
+              <slip2>0.0005</slip2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <inertial>
+        <inertia ixx="0.46164" ixy="0.00000" ixz="0.00000" iyy="0.84452" iyz="0.00000" izz="0.46164"/>
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 0.00000"/>
+        <mass value="5.00000"/>
+      </inertial>
+      <visual name="wheel_middle_right">
+        <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+        <material name="Material"/>
+        <geometry>
+          <mesh filename="file://$(find robot_rover)/meshes/dae/Torus.001.dae" scale="0.48000 0.48000 0.80000"/>
+        </geometry>
+      </visual>
+    </link>
+
+    <!-- Transmission is important to link the joints and the controller (see config/rover_controller.yaml)-->
+    <transmission name="back_right_wheel_joint_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="61_wheel_cover_back_right_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="back_right_wheel_joint_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    <gazebo reference="wheel_cover_back_right_link">
+      <mu1>5</mu1>
+      <mu2>5</mu2>
+    </gazebo>
+
+    <transmission name="back_left_wheel_joint_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="71_wheel_cover_back_left_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="back_left_wheel_joint_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    <gazebo reference="wheel_cover_back_left_link">
+      <mu1>5</mu1>
+      <mu2>5</mu2>
+    </gazebo>
+
+    <transmission name="middle_right_wheel_joint_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="41_wheel_cover_middle_right_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="middle_right_wheel_joint_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    <gazebo reference="wheel_cover_middle_right_link">
+      <mu1>5</mu1>
+      <mu2>5</mu2>
+    </gazebo>
+
+    <transmission name="middle_left_wheel_joint_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="51_wheel_cover_middle_left_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="middle_left_wheel_joint_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    <gazebo reference="wheel_cover_middle_left_link">
+      <mu1>5</mu1>
+      <mu2>5</mu2>
+    </gazebo>
+
+    <transmission name="front_right_wheel_joint_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="21_wheel_cover_front_right_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="front_right_wheel_joint_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    <gazebo reference="wheel_cover_front_right_link">
+      <mu1>5</mu1>
+      <mu2>5</mu2>
+    </gazebo>
+
+    <transmission name="front_left_wheel_joint_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="31_wheel_cover_front_left_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="front_left_wheel_joint_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+    <gazebo reference="wheel_cover_front_left_link">
+      <mu1>5</mu1>
+      <mu2>5</mu2>
+    </gazebo>
+
+  </xacro:macro>
+</robot>

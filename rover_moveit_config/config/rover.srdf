@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="rover">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="scara">
+        <link name="arm_cylinder_link"/>
+        <link name="arm_link1_part1_link_R"/>
+        <link name="arm_link1_part2_link"/>
+        <link name="arm_link1_part3_link"/>
+        <link name="arm_link2_part1_link_R"/>
+        <link name="arm_link2_part2_link"/>
+        <link name="arm_link2_part3_link"/>
+        <link name="arm_link3_link_T"/>
+        <link name="arm_base_fingers_link_R"/>
+        <joint name="02_arm_cylinder_joint"/>
+        <joint name="03_arm_link1_part1_joint"/>
+        <joint name="03_arm_link1_part2_joint"/>
+        <joint name="03_arm_link1_part3_joint"/>
+        <joint name="04_arm_link2_part1_joint"/>
+        <joint name="04_arm_link2_part2_joint"/>
+        <joint name="04_arm_link2_part3_joint"/>
+        <joint name="05_arm_link3_T_joint"/>
+        <joint name="06_arm_base_fingers_R_joint"/>
+        <chain base_link="arm_base_link" tip_link="arm_base_fingers_link_R"/>
+    </group>
+    <group name="gripper">
+        <link name="arm_finger_right_link"/>
+        <link name="arm_finger_left_link"/>
+        <joint name="07_arm_finger_right_joint"/>
+        <joint name="08_arm_finger_left_joint"/>
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="open" group="gripper">
+        <joint name="07_arm_finger_right_joint" value="0"/>
+        <joint name="08_arm_finger_left_joint" value="0"/>
+    </group_state>
+    <group_state name="close" group="gripper">
+        <joint name="07_arm_finger_right_joint" value="0.105"/>
+        <joint name="08_arm_finger_left_joint" value="-0.105"/>
+    </group_state>
+    <group_state name="hold" group="scara">
+        <joint name="03_arm_link1_part1_joint" value="0"/>
+        <joint name="04_arm_link2_part1_joint" value="0"/>
+        <joint name="05_arm_link3_T_joint" value="0.38"/>
+        <joint name="06_arm_base_fingers_R_joint" value="0"/>
+    </group_state>
+    <group_state name="target" group="scara">
+        <joint name="03_arm_link1_part1_joint" value="0"/>
+        <joint name="04_arm_link2_part1_joint" value="0"/>
+        <joint name="05_arm_link3_T_joint" value="-2.3514"/>
+        <joint name="06_arm_base_fingers_R_joint" value="0"/>
+    </group_state>
+    <group_state name="lobby" group="scara">
+        <joint name="03_arm_link1_part1_joint" value="-3.14"/>
+        <joint name="04_arm_link2_part1_joint" value="0"/>
+        <joint name="05_arm_link3_T_joint" value="0.38"/>
+        <joint name="06_arm_base_fingers_R_joint" value="0"/>
+    </group_state>
+    <group_state name="release" group="scara">
+        <joint name="03_arm_link1_part1_joint" value="-2.4808"/>
+        <joint name="04_arm_link2_part1_joint" value="-1.3249"/>
+        <joint name="05_arm_link3_T_joint" value="-0.5200"/>
+        <joint name="06_arm_base_fingers_R_joint" value="-0.8848"/>
+    </group_state>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="gripper" parent_link="arm_base_fingers_link_R" group="gripper" parent_group="scara"/>
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="arm_base_fingers_link_R" link2="arm_base_link" reason="Never"/>
+    <disable_collisions link1="arm_base_fingers_link_R" link2="arm_camera_camera_base_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_base_fingers_link_R" link2="arm_cylinder_link" reason="Never"/>
+    <disable_collisions link1="arm_base_fingers_link_R" link2="arm_finger_left_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_base_fingers_link_R" link2="arm_finger_right_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_base_fingers_link_R" link2="arm_link1_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_base_fingers_link_R" link2="arm_link1_part2_link" reason="Never"/>
+    <disable_collisions link1="arm_base_fingers_link_R" link2="arm_link1_part3_link" reason="Never"/>
+    <disable_collisions link1="arm_base_fingers_link_R" link2="arm_link2_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_base_fingers_link_R" link2="arm_link3_link_T" reason="Adjacent"/>
+    <disable_collisions link1="arm_base_fingers_link_R" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="arm_camera_camera_base_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="arm_cylinder_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_base_link" link2="arm_finger_left_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="arm_finger_right_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="arm_link1_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="arm_link1_part2_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="arm_link1_part3_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="arm_link2_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="arm_link2_part2_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="arm_link3_link_T" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_base_link" link2="front_camera_camera_base_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="imu_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="link_wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="link_wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="link_wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="link_wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="link_wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_base_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="arm_cylinder_link" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="arm_finger_left_link" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="arm_finger_right_link" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="arm_link1_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="arm_link1_part2_link" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="arm_link1_part3_link" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="arm_link2_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="arm_link3_link_T" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="front_camera_camera_base_link" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="imu_link" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="arm_camera_camera_base_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="arm_finger_left_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="arm_finger_right_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="arm_link1_part1_link_R" reason="Adjacent"/>
+    <disable_collisions link1="arm_cylinder_link" link2="arm_link1_part2_link" reason="Default"/>
+    <disable_collisions link1="arm_cylinder_link" link2="arm_link1_part3_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="arm_link2_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="arm_link2_part2_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="arm_link3_link_T" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="base_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="front_camera_camera_base_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="imu_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="link_wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="link_wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="link_wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="link_wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="link_wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_cylinder_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_finger_left_link" link2="arm_finger_right_link" reason="Never"/>
+    <disable_collisions link1="arm_finger_left_link" link2="arm_link1_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_finger_left_link" link2="arm_link1_part2_link" reason="Never"/>
+    <disable_collisions link1="arm_finger_left_link" link2="arm_link1_part3_link" reason="Never"/>
+    <disable_collisions link1="arm_finger_left_link" link2="arm_link2_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_finger_left_link" link2="arm_link3_link_T" reason="Never"/>
+    <disable_collisions link1="arm_finger_left_link" link2="imu_link" reason="Never"/>
+    <disable_collisions link1="arm_finger_left_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="arm_finger_right_link" link2="arm_link1_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_finger_right_link" link2="arm_link1_part2_link" reason="Never"/>
+    <disable_collisions link1="arm_finger_right_link" link2="arm_link1_part3_link" reason="Never"/>
+    <disable_collisions link1="arm_finger_right_link" link2="arm_link2_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_finger_right_link" link2="arm_link3_link_T" reason="Never"/>
+    <disable_collisions link1="arm_finger_right_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="arm_link1_part2_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="arm_link1_part3_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="arm_link2_part1_link_R" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="arm_link2_part2_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="arm_link3_link_T" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="base_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="front_camera_camera_base_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="imu_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="link_wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="link_wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="link_wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="link_wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="link_wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part1_link_R" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="arm_link1_part3_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="arm_link2_part1_link_R" reason="Default"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="arm_link2_part2_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="arm_link3_link_T" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="base_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="front_camera_camera_base_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="imu_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="link_wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="link_wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="link_wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="link_wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="link_wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part2_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="arm_link2_part1_link_R" reason="Adjacent"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="arm_link2_part2_link" reason="Default"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="arm_link3_link_T" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="base_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="front_camera_camera_base_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="imu_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="link_wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="link_wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="link_wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="link_wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="link_wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link1_part3_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="arm_link2_part2_link" reason="Adjacent"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="arm_link3_link_T" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="base_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="front_camera_camera_base_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="imu_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="link_wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="link_wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="link_wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="link_wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="link_wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part1_link_R" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="arm_link3_link_T" reason="Adjacent"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="base_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="front_camera_camera_base_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="imu_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="link_wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="link_wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="link_wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="link_wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="link_wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="arm_link2_part2_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="arm_link3_link_T" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="front_camera_camera_base_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="imu_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="link_wheel_back_left_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="link_wheel_back_right_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="link_wheel_front_left_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="link_wheel_front_right_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="link_wheel_middle_left_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="link_wheel_middle_right_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="wall1_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="wall2_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="wall3_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="wall4_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="base_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="imu_link" reason="Default"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="link_wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="link_wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="link_wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="link_wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="link_wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="front_camera_camera_base_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="link_wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="link_wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="link_wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="link_wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="link_wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="imu_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="link_wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="link_wheel_front_left_link" reason="Default"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="link_wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="link_wheel_middle_left_link" reason="Default"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_back_left_link" reason="Default"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_cover_back_left_link" reason="Adjacent"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_left_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="link_wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="link_wheel_front_right_link" reason="Default"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="link_wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="link_wheel_middle_right_link" reason="Default"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_cover_back_right_link" reason="Adjacent"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_back_right_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="link_wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="link_wheel_middle_left_link" reason="Default"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_cover_front_left_link" reason="Adjacent"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_front_left_link" reason="Default"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_left_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="link_wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="link_wheel_middle_right_link" reason="Default"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_cover_front_right_link" reason="Adjacent"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_front_right_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="link_wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_cover_middle_left_link" reason="Adjacent"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_middle_left_link" reason="Default"/>
+    <disable_collisions link1="link_wheel_middle_left_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wall1_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wall2_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wheel_cover_middle_right_link" reason="Adjacent"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="link_wheel_middle_right_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wall2_link" reason="Default"/>
+    <disable_collisions link1="wall1_link" link2="wall3_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wall4_link" reason="Default"/>
+    <disable_collisions link1="wall1_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wall1_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wall3_link" reason="Default"/>
+    <disable_collisions link1="wall2_link" link2="wall4_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wall2_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wall3_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_back_left_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wall4_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_left_link" link2="wheel_back_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_left_link" link2="wheel_cover_back_left_link" reason="Adjacent"/>
+    <disable_collisions link1="wheel_back_left_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_left_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_left_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_left_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_left_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_left_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_left_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_left_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_left_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_right_link" link2="wheel_cover_back_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_right_link" link2="wheel_cover_back_right_link" reason="Adjacent"/>
+    <disable_collisions link1="wheel_back_right_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_right_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_right_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_right_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_right_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_right_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_right_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_back_right_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_left_link" link2="wheel_cover_back_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_left_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_left_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_left_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_left_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_left_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_left_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_left_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_left_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_right_link" link2="wheel_cover_front_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_right_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_right_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_right_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_right_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_right_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_right_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_back_right_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_front_left_link" link2="wheel_cover_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_front_left_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_front_left_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_front_left_link" link2="wheel_front_left_link" reason="Adjacent"/>
+    <disable_collisions link1="wheel_cover_front_left_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_front_left_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_front_left_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_front_right_link" link2="wheel_cover_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_front_right_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_front_right_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_front_right_link" link2="wheel_front_right_link" reason="Adjacent"/>
+    <disable_collisions link1="wheel_cover_front_right_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_front_right_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_middle_left_link" link2="wheel_cover_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_middle_left_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_middle_left_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_middle_left_link" link2="wheel_middle_left_link" reason="Adjacent"/>
+    <disable_collisions link1="wheel_cover_middle_left_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_middle_right_link" link2="wheel_front_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_middle_right_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_middle_right_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_cover_middle_right_link" link2="wheel_middle_right_link" reason="Adjacent"/>
+    <disable_collisions link1="wheel_front_left_link" link2="wheel_front_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_front_left_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_front_left_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_front_right_link" link2="wheel_middle_left_link" reason="Never"/>
+    <disable_collisions link1="wheel_front_right_link" link2="wheel_middle_right_link" reason="Never"/>
+    <disable_collisions link1="wheel_middle_left_link" link2="wheel_middle_right_link" reason="Never"/>
+</robot>
