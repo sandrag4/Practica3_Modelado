@@ -9,11 +9,11 @@
 
 
 ### Plot tiempo vs posición de las ruedas
-![Plot tiempo vs posición de las ruedas](https://github.com/sandrag4/Practica3_Modelado/blob/main/files/plot-velocity.png "Plot tiempo vs posición de las ruedas")
-- Durante aproximadamente los 10 primeros segundos se muestra un aumento igual de velocidad en todas las ruedas, correspondiente al avance en linea recta hacia la caja.
-- Entre el segundo 10 y el segundo 25 (aproximadamente) no se muestra ninguna velocidad, lo que corresponde a la bajada del brazo hacia la caja.
-- Después de la bajada del brazo, se observa el aumento y decremento de velocidad de las ruedas, que se corresponde con el avance, retroceso y giro del robot hasta que coloco el gripper correctamente sobre la caja
-- Cuando se coloca el gripper sobra la caja, la velocidad pasa a ser 0 durante todo el pick and place
+![Plot tiempo vs posición de las ruedas](https://github.com/sandrag4/Practica3_Modelado/blob/main/files/plot-podition.png "Plot tiempo vs posición de las ruedas")
+- Durante aproximadamente los 10 primeros segundos se muestra un aumento igual de posicion en todas las ruedas, correspondiente al avance en linea recta hacia la caja.
+- Entre el segundo 10 y el segundo 25 (aproximadamente) no se muestra ningun cambio en la posición, lo que corresponde a la bajada del brazo hacia la caja.
+- Después de la bajada del brazo, se observa el aumento y decremento de la posicion de las ruedas, que se corresponde con el avance, retroceso y giro del robot hasta que coloco el gripper correctamente sobre la caja
+- Cuando se coloca el gripper sobre la caja, la posición se mantiene fija durante todo el pick and place
 
 
 ### Plot tiempo vs aceleración de las ruedas
